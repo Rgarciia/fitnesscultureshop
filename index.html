@@ -472,9 +472,45 @@
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script>
+    var imageWidth = '';
+    var imageHeight = '';
+
+    go();
+    window.addEventListener('resize', go);
+
+    function go() {
+        imageWidth = document.documentElement.clientWidth;
+        imageHeight = document.documentElement.clientHeight;
+        console.log(imageHeight + ' ' + imageWidth);
+    }
+
+    const numItemsToGenerate = 1; //how many gallery items you want on the screen
+    const numImagesAvailable = 242; //how many total images are in the collection you are pulling from
+    const collectionID = 82573541; //the collection ID from the original url 4822509 8518442
+    const galleryContainer = document.querySelector('body');
+
+    function renderGalleryItem(randomNumber) {
+        fetch(`https://source.unsplash.com/collection/${collectionID}/${imageWidth}x${imageHeight}/?sig=${randomNumber}`)
+            // eslint-disable-next-line no-unused-vars
+            .then((response) => {
+                galleryContainer.style = 'background-image: url(' + response.url + ')';
+            })
+    }
+
+    for (let i = 0; i < numItemsToGenerate; i++) {
+        let randomImageIndex = Math.floor(Math.random() * numImagesAvailable);
+        window.setInterval(function () {
+            renderGalleryItem(randomImageIndex);
+        }, 3000);
+    }
+
+  </script>
 
 </body>
 
